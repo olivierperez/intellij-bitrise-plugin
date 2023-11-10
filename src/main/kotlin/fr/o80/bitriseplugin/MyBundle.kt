@@ -1,4 +1,4 @@
-package com.github.olivierperez.bitriseplugin
+package fr.o80.bitriseplugin
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls

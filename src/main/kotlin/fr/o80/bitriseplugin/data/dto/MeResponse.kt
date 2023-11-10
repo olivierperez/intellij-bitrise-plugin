@@ -1,4 +1,4 @@
-package com.github.olivierperez.bitriseplugin.data.dto
+package fr.o80.bitriseplugin.data.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -1,9 +1,9 @@
-package com.github.olivierperez.bitriseplugin.services
+package fr.o80.bitriseplugin.services
 
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
-import com.github.olivierperez.bitriseplugin.MyBundle
+import fr.o80.bitriseplugin.MyBundle
 
 @Service(Service.Level.PROJECT)
 class MyProjectService(project: Project) {

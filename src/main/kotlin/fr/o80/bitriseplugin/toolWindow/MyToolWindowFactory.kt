@@ -1,4 +1,4 @@
-package com.github.olivierperez.bitriseplugin.toolWindow
+package fr.o80.bitriseplugin.toolWindow
 
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.thisLogger
@@ -8,8 +8,8 @@ import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBPanel
 import com.intellij.ui.content.ContentFactory
-import com.github.olivierperez.bitriseplugin.MyBundle
-import com.github.olivierperez.bitriseplugin.services.MyProjectService
+import fr.o80.bitriseplugin.MyBundle
+import fr.o80.bitriseplugin.services.MyProjectService
 import javax.swing.JButton
 
 
