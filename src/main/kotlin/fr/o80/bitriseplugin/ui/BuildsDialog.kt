@@ -3,14 +3,17 @@ package fr.o80.bitriseplugin.ui
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.dsl.builder.panel
-import fr.o80.bitriseplugin.data.dto.Build
+import fr.o80.bitriseplugin.domain.model.Branch
+import kotlinx.datetime.Clock
 import javax.swing.JComponent
 
 class BuildsDialog(
     title: String,
     project: Project,
-    private val builds: List<Build>
+    private val builds: List<Branch>
 ) : DialogWrapper(project) {
+
+    private val durationFormatter = DurationFormatter()
 
     init {
         setTitle(title)
@@ -18,21 +21,19 @@ class BuildsDialog(
         init()
 
         builds
-            .map { build -> build.branch ?: build.tag }
+            .map { build -> build.ref }
             .forEach { ref -> println("- $ref") }
     }
 
-    override fun createCenterPanel(): JComponent = panel {
-        row {
-            label("")
-            label("Ref")
-        }
+    override fun createCenterPanel(): JComponent = realPanel()
 
-        builds.forEach {build ->
-            row {
-                label("")
-                label(build.ref)
-            }
+    private fun realPanel() = panel {
+        builds.forEach { build ->
+            val since = Clock.System.now() - build.moreRecentBuild.startDate
+            twoColumnsRow(
+                column1 = { text(build.ref).bold() },
+                column2 = { icon(build.moreRecentBuild.status.icon) },
+            ).rowComment(durationFormatter.format(since))
         }
     }
 }

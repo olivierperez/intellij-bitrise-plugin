@@ -1,26 +1,27 @@
 package fr.o80.bitriseplugin.data.dto
 
+import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class BuildsResponse(
     @SerialName("data")
-    val data: List<Build>,
+    val data: List<BuildDto>,
     @SerialName("paging")
     val paging: Paging
 )
 
 @Serializable
-data class Build(
+data class BuildDto(
     @SerialName("triggered_at")
-    val triggeredAt: String,
+    val triggeredAt: Instant,
     @SerialName("started_on_worker_at")
-    val startedOnWorkerAt: String,
+    val startedOnWorkerAt: Instant,
     @SerialName("environment_prepare_finished_at")
-    val environmentPrepareFinishedAt: String,
+    val environmentPrepareFinishedAt: Instant,
     @SerialName("finished_at")
-    val finishedAt: String,
+    val finishedAt: Instant,
     @SerialName("slug")
     val slug: String,
     @SerialName("status")

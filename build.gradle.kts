@@ -34,6 +34,8 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerialization")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 }
 
