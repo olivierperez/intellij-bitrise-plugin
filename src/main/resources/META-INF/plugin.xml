@@ -9,7 +9,10 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="fr.o80.bitriseplugin.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+<!--       <toolWindow factoryClass="fr.o80.bitriseplugin.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>-->
+        <toolWindow factoryClass="fr.o80.bitriseplugin.ui.BuildsToolWindowsFactory"
+                    icon="AllIcons.Toolwindows.WebToolWindow"
+                    id="Bitrise Builds"/>
     </extensions>
 
     <applicationListeners>

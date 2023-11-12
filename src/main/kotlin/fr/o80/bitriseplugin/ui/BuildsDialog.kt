@@ -13,7 +13,7 @@ class BuildsDialog(
     private val builds: List<Branch>
 ) : DialogWrapper(project) {
 
-    private val durationFormatter = DurationFormatter()
+    private val buildsPanelFactory = BuildsPanelFactory()
 
     init {
         setTitle(title)
@@ -25,15 +25,5 @@ class BuildsDialog(
             .forEach { ref -> println("- $ref") }
     }
 
-    override fun createCenterPanel(): JComponent = realPanel()
-
-    private fun realPanel() = panel {
-        builds.forEach { build ->
-            val since = Clock.System.now() - build.moreRecentBuild.startDate
-            twoColumnsRow(
-                column1 = { text(build.ref).bold() },
-                column2 = { icon(build.moreRecentBuild.status.icon) },
-            ).rowComment(durationFormatter.format(since))
-        }
-    }
+    override fun createCenterPanel(): JComponent = buildsPanelFactory.create(builds)
 }
