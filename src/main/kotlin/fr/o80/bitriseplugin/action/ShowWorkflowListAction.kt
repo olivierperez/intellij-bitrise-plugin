@@ -12,12 +12,15 @@ class ShowWorkflowListAction : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
         runBlocking {
-            println("Builds:\n$")
-
             val getBranchBuilds = GetBranchBuildsUseCase(BitriseWebService(HttpClientProvider.client))
             val builds = getBranchBuilds(50)
 
-            BuildsDialog("Builds", project, builds).show()
+            BuildsDialog(
+                title = "Builds",
+                project = project,
+                builds = builds,
+                load = { getBranchBuilds(50) }
+            ).show()
         }
     }
 }

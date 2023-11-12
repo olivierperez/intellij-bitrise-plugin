@@ -9,15 +9,13 @@ import fr.o80.bitriseplugin.data.HttpClientProvider
 import fr.o80.bitriseplugin.domain.model.GetBranchBuildsUseCase
 import kotlinx.coroutines.runBlocking
 
-class BuildsToolWindowsFactory: ToolWindowFactory {
-    private val buildsPanelFactory = BuildsPanelFactory()
+class BuildsToolWindowsFactory : ToolWindowFactory {
+    private val getBranchBuilds = GetBranchBuildsUseCase(BitriseWebService(HttpClientProvider.client))
+    private val buildsPanelFactory = BuildsPanelFactory { getBranchBuilds(50) }
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         runBlocking {
-            val getBranchBuilds = GetBranchBuildsUseCase(BitriseWebService(HttpClientProvider.client))
-            val builds = getBranchBuilds(50)
-
-            val panel = buildsPanelFactory.create(builds)
+            val panel = buildsPanelFactory.create(getBranchBuilds(50))
             val content = ContentFactory.getInstance().createContent(panel, null, false)
             toolWindow.contentManager.addContent(content)
         }

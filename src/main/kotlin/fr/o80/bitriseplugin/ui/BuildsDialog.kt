@@ -10,10 +10,11 @@ import javax.swing.JComponent
 class BuildsDialog(
     title: String,
     project: Project,
-    private val builds: List<Branch>
+    private val builds: List<Branch>,
+    load: suspend () -> List<Branch>,
 ) : DialogWrapper(project) {
 
-    private val buildsPanelFactory = BuildsPanelFactory()
+    private val buildsPanelFactory = BuildsPanelFactory(load)
 
     init {
         setTitle(title)
