@@ -1,7 +1,6 @@
 package fr.o80.bitriseplugin.ui.component
 
 import com.intellij.ui.components.panels.VerticalLayout
-import com.intellij.ui.scale.JBUIScale
 import fr.o80.bitriseplugin.domain.model.Branch
 import fr.o80.bitriseplugin.ui.DurationFormatter
 import fr.o80.bitriseplugin.ui.bold
