@@ -4,7 +4,7 @@ import fr.o80.bitriseplugin.data.BitriseWebService
 import fr.o80.bitriseplugin.data.HttpClientProvider
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import fr.o80.bitriseplugin.domain.model.GetBranchBuildsUseCase
+import fr.o80.bitriseplugin.domain.GetBranchBuildsUseCase
 import fr.o80.bitriseplugin.ui.BuildsDialog
 import kotlinx.coroutines.runBlocking
 

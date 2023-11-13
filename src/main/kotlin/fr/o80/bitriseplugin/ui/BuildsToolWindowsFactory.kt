@@ -6,7 +6,7 @@ import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.content.ContentFactory
 import fr.o80.bitriseplugin.data.BitriseWebService
 import fr.o80.bitriseplugin.data.HttpClientProvider
-import fr.o80.bitriseplugin.domain.model.GetBranchBuildsUseCase
+import fr.o80.bitriseplugin.domain.GetBranchBuildsUseCase
 import kotlinx.coroutines.runBlocking
 
 class BuildsToolWindowsFactory : ToolWindowFactory {

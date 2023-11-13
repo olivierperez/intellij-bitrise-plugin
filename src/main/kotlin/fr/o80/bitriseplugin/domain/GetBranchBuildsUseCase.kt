@@ -1,6 +1,9 @@
-package fr.o80.bitriseplugin.domain.model
+package fr.o80.bitriseplugin.domain
 
 import fr.o80.bitriseplugin.data.BitriseWebService
+import fr.o80.bitriseplugin.domain.model.Branch
+import fr.o80.bitriseplugin.domain.model.Build
+import fr.o80.bitriseplugin.domain.model.BuildStatus
 
 class GetBranchBuildsUseCase(
     private val webService: BitriseWebService
