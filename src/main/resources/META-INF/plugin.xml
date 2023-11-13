@@ -11,7 +11,7 @@
     <extensions defaultExtensionNs="com.intellij">
 <!--       <toolWindow factoryClass="fr.o80.bitriseplugin.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>-->
         <toolWindow factoryClass="fr.o80.bitriseplugin.ui.BuildsToolWindowsFactory"
-                    icon="AllIcons.Toolwindows.WebToolWindow"
+                    icon="/icons/bitrise_logo_16.png"
                     id="Bitrise Builds"/>
     </extensions>
 
