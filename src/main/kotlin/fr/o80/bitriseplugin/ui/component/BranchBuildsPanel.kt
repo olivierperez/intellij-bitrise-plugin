@@ -19,12 +19,14 @@ class BranchBuildsPanel(
     private val statusIcon = JLabel(branch.moreRecentBuild.status.icon).padding(10)
 
     private val content = JPanel(VerticalLayout(1)).apply {
+        val since = durationFormatter.format(Clock.System.now() - branch.moreRecentBuild.startDate)
+        val duration = durationFormatter.format(branch.moreRecentBuild.duration)
         add(JLabel(branch.ref).bold().apply {toolTipText = branch.ref})
-        add(JComment(durationFormatter.format(Clock.System.now() - branch.moreRecentBuild.startDate)))
+        add(JComment("$since ago - $duration"))
     }
 
     init {
-        setLayout(BorderLayout(0, 20))
+        layout = BorderLayout(0, 20)
         add(statusIcon, BorderLayout.WEST)
         add(content, BorderLayout.CENTER)
     }

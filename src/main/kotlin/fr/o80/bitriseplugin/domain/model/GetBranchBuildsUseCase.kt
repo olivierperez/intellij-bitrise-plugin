@@ -13,6 +13,7 @@ class GetBranchBuildsUseCase(
                 valueTransform = { dto ->
                     Build(
                         startDate = dto.triggeredAt,
+                        duration = dto.finishedAt - dto.triggeredAt,
                         status = BuildStatus.values()[dto.status]
                     )
                 }
