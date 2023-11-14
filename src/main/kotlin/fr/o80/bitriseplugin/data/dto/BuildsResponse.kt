@@ -17,11 +17,11 @@ data class BuildDto(
     @SerialName("triggered_at")
     val triggeredAt: Instant,
     @SerialName("started_on_worker_at")
-    val startedOnWorkerAt: Instant,
+    val startedOnWorkerAt: Instant?,
     @SerialName("environment_prepare_finished_at")
-    val environmentPrepareFinishedAt: Instant,
+    val environmentPrepareFinishedAt: Instant?,
     @SerialName("finished_at")
-    val finishedAt: Instant,
+    val finishedAt: Instant?,
     @SerialName("slug")
     val slug: String,
     @SerialName("status")
@@ -69,7 +69,7 @@ data class BuildDto(
     @SerialName("credit_cost")
     val creditCost: Int?,
     @SerialName("log_format")
-    val logFormat: String
+    val logFormat: String?
 ) {
     val ref: String get() = tag ?: branch ?: commitHash ?: commitMessage ?: "no-ref"
 

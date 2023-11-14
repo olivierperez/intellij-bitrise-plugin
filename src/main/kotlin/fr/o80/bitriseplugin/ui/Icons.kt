@@ -4,7 +4,9 @@ import com.intellij.openapi.util.IconLoader
 
 object Icons {
     @JvmField
-    val Circle = IconLoader.getIcon("/icons/circle_16.png", javaClass)
+    val CircleStroke = IconLoader.getIcon("/icons/circle_stroke_16.png", javaClass)
+    @JvmField
+    val CircleGrey = IconLoader.getIcon("/icons/circle_grey_16.png", javaClass)
     @JvmField
     val CircleMinus = IconLoader.getIcon("/icons/circle_minus_16.png", javaClass)
     @JvmField

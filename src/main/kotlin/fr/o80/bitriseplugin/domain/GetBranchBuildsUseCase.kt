@@ -4,6 +4,7 @@ import fr.o80.bitriseplugin.data.BitriseWebService
 import fr.o80.bitriseplugin.domain.model.Branch
 import fr.o80.bitriseplugin.domain.model.Build
 import fr.o80.bitriseplugin.domain.model.BuildStatus
+import kotlinx.datetime.Clock
 
 class GetBranchBuildsUseCase(
     private val webService: BitriseWebService
@@ -16,7 +17,9 @@ class GetBranchBuildsUseCase(
                 valueTransform = { dto ->
                     Build(
                         startDate = dto.triggeredAt,
-                        duration = dto.finishedAt - dto.triggeredAt,
+                        duration = dto.finishedAt
+                            ?.let { finishedAt -> finishedAt - dto.triggeredAt }
+                            ?: (Clock.System.now() - dto.triggeredAt),
                         status = BuildStatus.values()[dto.status]
                     )
                 }

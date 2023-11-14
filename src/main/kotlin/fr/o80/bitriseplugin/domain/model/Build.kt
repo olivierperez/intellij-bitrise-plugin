@@ -12,9 +12,9 @@ data class Build(
 )
 
 enum class BuildStatus(val icon: Icon) {
-    NOT_FINISHED(Icons.Circle),
+    NOT_FINISHED(Icons.CircleGrey),
     SUCCESSFUL(Icons.CircleCheck),
     FAILED(Icons.CircleMinus),
-    ABORTED_WITH_FAILURE(Icons.Circle),
-    ABORTED_WITH_SUCCESS(Icons.Circle)
+    ABORTED_WITH_FAILURE(Icons.CircleStroke),
+    ABORTED_WITH_SUCCESS(Icons.CircleStroke)
 }
