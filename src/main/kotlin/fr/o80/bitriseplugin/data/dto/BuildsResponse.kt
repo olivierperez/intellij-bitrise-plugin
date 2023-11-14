@@ -25,7 +25,7 @@ data class BuildDto(
     @SerialName("slug")
     val slug: String,
     @SerialName("status")
-    val status: Int,
+    val statusCode: Int,
     @SerialName("status_text")
     val statusText: String,
     @SerialName("abort_reason")

@@ -38,7 +38,7 @@ class BuildsPanelFactory {
     private fun newBranchBuildsList(builds: List<Branch>) =
         VerticalComponent(
             items = builds,
-            gap = 0
+            gap = 10
         ) { build ->
             BranchBuildsPanel(build)
                 .padding(4)

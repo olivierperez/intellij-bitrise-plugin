@@ -5,6 +5,7 @@ import fr.o80.bitriseplugin.domain.model.Branch
 import fr.o80.bitriseplugin.ui.DurationFormatter
 import fr.o80.bitriseplugin.ui.bold
 import fr.o80.bitriseplugin.ui.padding
+import fr.o80.bitriseplugin.ui.tooltip
 import kotlinx.datetime.Clock
 import java.awt.BorderLayout
 import javax.swing.JLabel
@@ -20,8 +21,11 @@ class BranchBuildsPanel(
     private val content = JPanel(VerticalLayout(1)).apply {
         val since = durationFormatter.format(Clock.System.now() - branch.moreRecentBuild.startDate)
         val duration = durationFormatter.format(branch.moreRecentBuild.duration)
-        add(JLabel(branch.ref).bold().apply {toolTipText = branch.ref})
+        add(JLabel(branch.ref).bold().tooltip(branch.ref))
         add(JComment("$since ago - $duration"))
+        branch.moreRecentBuild.message?.let { message ->
+            add(JComment(message).tooltip(message))
+        }
     }
 
     init {

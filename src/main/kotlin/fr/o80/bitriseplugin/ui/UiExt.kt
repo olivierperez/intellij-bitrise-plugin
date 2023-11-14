@@ -11,3 +11,7 @@ fun JComponent.padding(padding: Int) = apply {
 fun JComponent.bold() = apply {
     font = font.deriveFont(font.style or Font.BOLD)
 }
+
+fun JComponent.tooltip(text: String) = apply {
+    toolTipText = text
+}
