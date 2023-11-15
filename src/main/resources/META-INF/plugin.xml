@@ -9,9 +9,10 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="fr.o80.bitriseplugin.ui.BuildsToolWindowsFactory"
+        <toolWindow id="Bitrise Builds"
+                    factoryClass="fr.o80.bitriseplugin.ui.BuildsToolWindowsFactory"
                     icon="/icons/bitrise_logo_16.png"
-                    id="Bitrise Builds"/>
+                    anchor="right"/>
     </extensions>
 
     <applicationListeners>
@@ -21,8 +22,8 @@
 
     <actions>
         <action class="fr.o80.bitriseplugin.action.ShowWorkflowListAction"
-        id="ShowWorkflowList"
-        text="Show Bitrise Builds">
+                id="ShowWorkflowList"
+                text="Show Bitrise Builds">
             <keyboard-shortcut first-keystroke="ctrl alt shift B" keymap="$default"/>
         </action>
     </actions>
