@@ -1,5 +1,7 @@
 package fr.o80.bitriseplugin.ui.page
 
+import com.intellij.icons.AllIcons
+import com.intellij.openapi.project.ProjectManager
 import com.intellij.ui.components.JBScrollPane
 import fr.o80.bitriseplugin.data.BitriseWebService
 import fr.o80.bitriseplugin.data.HttpClientProvider
@@ -7,11 +9,13 @@ import fr.o80.bitriseplugin.domain.GetBranchBuildsUseCase
 import fr.o80.bitriseplugin.domain.model.Branch
 import fr.o80.bitriseplugin.ui.component.BranchBuildsPanel
 import fr.o80.bitriseplugin.ui.component.VerticalComponent
-import fr.o80.bitriseplugin.ui.padding
+import fr.o80.bitriseplugin.ui.entry.StartWorkflowDialog
+import fr.o80.bitriseplugin.ui.utils.padding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import org.jdesktop.swingx.HorizontalLayout
 import java.awt.BorderLayout
 import java.awt.Component
 import java.awt.Dimension
@@ -27,9 +31,9 @@ class BuildsPage : JPanel(BorderLayout()) {
     private lateinit var buildsComponent: Component
 
     init {
-        add(refreshButton(), BorderLayout.NORTH)
+        add(newHeader(), BorderLayout.NORTH)
         load()
-        minimumSize = Dimension(350,250)
+        minimumSize = Dimension(350, 250)
     }
 
     private fun newBranchBuildsList(builds: List<Branch> = emptyList()) =
@@ -47,8 +51,15 @@ class BuildsPage : JPanel(BorderLayout()) {
             buildsComponent = it
         }
 
-    private fun refreshButton() = JButton("Refresh").apply {
-        addActionListener { refresh() }
+    private fun newHeader() = JPanel(HorizontalLayout()).apply {
+        add(JButton("Refresh").apply {
+            icon = AllIcons.Actions.Refresh
+            addActionListener { refresh() }
+        })
+        add(JButton("Start workflow").apply {
+            icon = AllIcons.Actions.Play_forward
+            addActionListener { StartWorkflowDialog(ProjectManager.getInstance().defaultProject).show() }
+        })
     }
 
     private fun refresh() {

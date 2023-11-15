@@ -10,7 +10,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Bitrise Builds"
-                    factoryClass="fr.o80.bitriseplugin.ui.BuildsToolWindowsFactory"
+                    factoryClass="fr.o80.bitriseplugin.ui.entry.BuildsToolWindowsFactory"
                     icon="/icons/bitrise_logo_16.png"
                     anchor="right"/>
     </extensions>

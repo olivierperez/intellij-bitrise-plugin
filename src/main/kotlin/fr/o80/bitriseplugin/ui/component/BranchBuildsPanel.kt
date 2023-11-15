@@ -3,9 +3,9 @@ package fr.o80.bitriseplugin.ui.component
 import com.intellij.ui.components.panels.VerticalLayout
 import fr.o80.bitriseplugin.domain.model.Branch
 import fr.o80.bitriseplugin.ui.DurationFormatter
-import fr.o80.bitriseplugin.ui.bold
-import fr.o80.bitriseplugin.ui.padding
-import fr.o80.bitriseplugin.ui.tooltip
+import fr.o80.bitriseplugin.ui.utils.bold
+import fr.o80.bitriseplugin.ui.utils.padding
+import fr.o80.bitriseplugin.ui.utils.tooltip
 import kotlinx.datetime.Clock
 import java.awt.BorderLayout
 import javax.swing.JLabel

@@ -1,4 +1,4 @@
-package fr.o80.bitriseplugin.ui
+package fr.o80.bitriseplugin.ui.entry
 
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
