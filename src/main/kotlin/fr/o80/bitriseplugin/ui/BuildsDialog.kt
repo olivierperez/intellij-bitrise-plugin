@@ -2,6 +2,7 @@ package fr.o80.bitriseplugin.ui
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
+import fr.o80.bitriseplugin.ui.page.BuildsPage
 import javax.swing.JComponent
 
 class BuildsDialog(
@@ -9,13 +10,11 @@ class BuildsDialog(
     project: Project,
 ) : DialogWrapper(project) {
 
-    private val buildsPanelFactory = BuildsPanelFactory()
-
     init {
         setTitle(title)
         setOKButtonText("OK")
         init()
     }
 
-    override fun createCenterPanel(): JComponent = buildsPanelFactory.create()
+    override fun createCenterPanel(): JComponent = BuildsPage()
 }

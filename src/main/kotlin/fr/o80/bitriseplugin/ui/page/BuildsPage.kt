@@ -1,4 +1,4 @@
-package fr.o80.bitriseplugin.ui
+package fr.o80.bitriseplugin.ui.page
 
 import com.intellij.ui.components.JBScrollPane
 import fr.o80.bitriseplugin.data.BitriseWebService
@@ -7,33 +7,29 @@ import fr.o80.bitriseplugin.domain.GetBranchBuildsUseCase
 import fr.o80.bitriseplugin.domain.model.Branch
 import fr.o80.bitriseplugin.ui.component.BranchBuildsPanel
 import fr.o80.bitriseplugin.ui.component.VerticalComponent
+import fr.o80.bitriseplugin.ui.padding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import java.awt.BorderLayout
 import java.awt.Component
+import java.awt.Dimension
 import javax.swing.JButton
-import javax.swing.JComponent
 import javax.swing.JPanel
 
-class BuildsPanelFactory {
+class BuildsPage : JPanel(BorderLayout()) {
 
     private val getBranchBuilds = GetBranchBuildsUseCase(BitriseWebService(HttpClientProvider.client))
 
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
-    private lateinit var parent: JPanel
-    private var buildsComponent: Component = newBranchBuildsList()
+    private lateinit var buildsComponent: Component
 
-    fun create(): JComponent {
-        return JPanel(BorderLayout()).apply {
-            add(refreshButton(), BorderLayout.NORTH)
-            add(buildsComponent, BorderLayout.CENTER)
-        }.also {
-            parent = it
-            refresh()
-        }
+    init {
+        add(refreshButton(), BorderLayout.NORTH)
+        load()
+        minimumSize = Dimension(350,250)
     }
 
     private fun newBranchBuildsList(builds: List<Branch> = emptyList()) =
@@ -47,6 +43,8 @@ class BuildsPanelFactory {
         ).apply {
             verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
             horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        }.also {
+            buildsComponent = it
         }
 
     private fun refreshButton() = JButton("Refresh").apply {
@@ -54,15 +52,17 @@ class BuildsPanelFactory {
     }
 
     private fun refresh() {
-        parent.apply {
-            remove(buildsComponent)
-            updateUI()
-        }
+        remove(buildsComponent)
+        updateUI()
+        load()
+    }
+
+    private fun load() {
         scope.launch {
             val builds = getBranchBuilds(50)
             buildsComponent = newBranchBuildsList(builds)
-            parent.add(buildsComponent, BorderLayout.CENTER)
-            parent.updateUI()
+            add(buildsComponent, BorderLayout.CENTER)
+            updateUI()
         }
     }
 }
