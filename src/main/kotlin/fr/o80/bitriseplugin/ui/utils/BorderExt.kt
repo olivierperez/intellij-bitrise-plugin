@@ -7,11 +7,11 @@ import javax.swing.border.CompoundBorder
 import javax.swing.border.TitledBorder
 
 
-fun JComponent.padding(padding: Int): JComponent = apply {
+fun <T : JComponent> T.padding(padding: Int): T = apply {
     border = JBUI.Borders.empty(padding)
 }
 
-fun JComponent.padding(vertical: Int, horizontal: Int): JComponent = apply {
+fun <T : JComponent> T.padding(vertical: Int, horizontal: Int): T = apply {
     border = JBUI.Borders.empty(vertical, horizontal, vertical, horizontal)
 }
 

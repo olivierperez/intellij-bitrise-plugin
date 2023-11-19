@@ -6,11 +6,15 @@ import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.content.ContentFactory
 import fr.o80.bitriseplugin.ui.page.BuildsPage
+import fr.o80.bitriseplugin.ui.page.StartWorkflowPage
 
 class BuildsToolWindowsFactory : ToolWindowFactory, DumbAware {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        val panel = BuildsPage()
-        val content = ContentFactory.getInstance().createContent(panel, null, false)
-        toolWindow.contentManager.addContent(content)
+        toolWindow.contentManager.addContent(
+            ContentFactory.getInstance().createContent(BuildsPage(), "Builds", false)
+        )
+        toolWindow.contentManager.addContent(
+            ContentFactory.getInstance().createContent(StartWorkflowPage(), "Start Workflow", false)
+        )
     }
 }

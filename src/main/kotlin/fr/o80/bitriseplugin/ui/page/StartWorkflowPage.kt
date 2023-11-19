@@ -6,6 +6,7 @@ import fr.o80.bitriseplugin.domain.GetWorkflowsUseCase
 import fr.o80.bitriseplugin.domain.StartWorkflowUseCase
 import fr.o80.bitriseplugin.ui.atom.LoadingComponent
 import fr.o80.bitriseplugin.ui.template.StartWorkflowLoaded
+import fr.o80.bitriseplugin.ui.utils.padding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -13,9 +14,7 @@ import kotlinx.coroutines.launch
 import java.awt.BorderLayout
 import javax.swing.JPanel
 
-class StartWorkflowPage(
-    private val onValidityChanged: (Boolean) -> Unit
-) : JPanel(BorderLayout()) {
+class StartWorkflowPage : JPanel(BorderLayout()) {
 
     private val webService = BitriseWebService(HttpClientProvider.client)
     private val getWorkflows = GetWorkflowsUseCase(webService)
@@ -36,17 +35,13 @@ class StartWorkflowPage(
             val workflows = getWorkflows()
             remove(loading)
             loading = null
-            StartWorkflowLoaded(workflows, startWorkflow, onValidityChanged).let {
-                add(it, BorderLayout.CENTER)
-                it.requestFocus()
-                content = it
-            }
-        }
-    }
-
-    fun doOKAction() {
-        scope.launch {
-            content?.doOKAction()
+            StartWorkflowLoaded(workflows, startWorkflow)
+                .padding(8)
+                .let {
+                    add(it, BorderLayout.CENTER)
+                    it.requestFocus()
+                    content = it
+                }
         }
     }
 }

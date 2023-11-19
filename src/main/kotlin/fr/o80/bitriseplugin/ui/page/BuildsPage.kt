@@ -1,19 +1,16 @@
 package fr.o80.bitriseplugin.ui.page
 
 import com.intellij.icons.AllIcons
-import com.intellij.openapi.project.ProjectManager
 import fr.o80.bitriseplugin.data.BitriseWebService
 import fr.o80.bitriseplugin.data.HttpClientProvider
 import fr.o80.bitriseplugin.domain.GetBranchBuildsUseCase
 import fr.o80.bitriseplugin.ui.atom.LoadingComponent
 import fr.o80.bitriseplugin.ui.molecule.BuildsVerticalList
-import fr.o80.bitriseplugin.ui.entry.StartWorkflowDialog
 import fr.o80.bitriseplugin.ui.utils.padding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import org.jdesktop.swingx.HorizontalLayout
 import java.awt.BorderLayout
 import java.awt.Component
 import java.awt.Dimension
@@ -36,15 +33,9 @@ class BuildsPage : JPanel(BorderLayout()) {
         minimumSize = Dimension(350, 250)
     }
 
-    private fun newHeader() = JPanel(HorizontalLayout()).apply {
-        add(JButton("Refresh").apply {
-            icon = AllIcons.Actions.Refresh
-            addActionListener { refresh() }
-        })
-        add(JButton("Start workflow").apply {
-            icon = AllIcons.Actions.Play_forward
-            addActionListener { StartWorkflowDialog(ProjectManager.getInstance().defaultProject).show() }
-        })
+    private fun newHeader() = JButton("Refresh").apply {
+        icon = AllIcons.Actions.Refresh
+        addActionListener { refresh() }
     }
 
     private fun refresh() {
