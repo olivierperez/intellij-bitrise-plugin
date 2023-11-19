@@ -24,10 +24,6 @@ class StartWorkflowDialog(
             onValidityChanged = { okAction.isEnabled = it }
         ).also { page = it }
 
-    override fun getPreferredFocusedComponent(): JComponent? {
-        return page?.getPreferredFocusedComponent()
-    }
-
     override fun getDimensionServiceKey(): String {
         return "BitrisePlugin.StartWorkflowDialog"
     }
