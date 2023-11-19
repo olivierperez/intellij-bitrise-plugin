@@ -1,4 +1,4 @@
-package fr.o80.bitriseplugin.ui.component
+package fr.o80.bitriseplugin.ui.atom
 
 import com.intellij.ui.components.panels.VerticalLayout
 import com.intellij.ui.scale.JBUIScale

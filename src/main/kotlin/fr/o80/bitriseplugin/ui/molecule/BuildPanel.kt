@@ -1,8 +1,9 @@
-package fr.o80.bitriseplugin.ui.component
+package fr.o80.bitriseplugin.ui.molecule
 
 import com.intellij.ui.components.panels.VerticalLayout
 import fr.o80.bitriseplugin.domain.model.Branch
 import fr.o80.bitriseplugin.ui.DurationFormatter
+import fr.o80.bitriseplugin.ui.atom.JComment
 import fr.o80.bitriseplugin.ui.utils.bold
 import fr.o80.bitriseplugin.ui.utils.padding
 import fr.o80.bitriseplugin.ui.utils.tooltip
@@ -11,7 +12,7 @@ import java.awt.BorderLayout
 import javax.swing.JLabel
 import javax.swing.JPanel
 
-class BranchBuildsPanel(
+class BuildPanel(
     branch: Branch
 ) : JPanel() {
     private val durationFormatter = DurationFormatter()

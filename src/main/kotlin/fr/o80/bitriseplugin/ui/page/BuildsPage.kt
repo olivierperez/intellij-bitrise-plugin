@@ -2,13 +2,11 @@ package fr.o80.bitriseplugin.ui.page
 
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.project.ProjectManager
-import com.intellij.ui.components.JBScrollPane
 import fr.o80.bitriseplugin.data.BitriseWebService
 import fr.o80.bitriseplugin.data.HttpClientProvider
 import fr.o80.bitriseplugin.domain.GetBranchBuildsUseCase
-import fr.o80.bitriseplugin.domain.model.Branch
-import fr.o80.bitriseplugin.ui.component.BranchBuildsPanel
-import fr.o80.bitriseplugin.ui.component.VerticalComponent
+import fr.o80.bitriseplugin.ui.atom.LoadingComponent
+import fr.o80.bitriseplugin.ui.molecule.BuildsVerticalList
 import fr.o80.bitriseplugin.ui.entry.StartWorkflowDialog
 import fr.o80.bitriseplugin.ui.utils.padding
 import kotlinx.coroutines.CoroutineScope
@@ -29,27 +27,14 @@ class BuildsPage : JPanel(BorderLayout()) {
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     private lateinit var buildsComponent: Component
+    private var loading = LoadingComponent("Loading Builds").padding(8)
 
     init {
         add(newHeader(), BorderLayout.NORTH)
+        add(loading, BorderLayout.CENTER)
         load()
         minimumSize = Dimension(350, 250)
     }
-
-    private fun newBranchBuildsList(builds: List<Branch> = emptyList()) =
-        JBScrollPane(
-            VerticalComponent(
-                items = builds
-            ) { build ->
-                BranchBuildsPanel(build)
-                    .padding(horizontal = 4, vertical = 10)
-            }
-        ).apply {
-            verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
-            horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-        }.also {
-            buildsComponent = it
-        }
 
     private fun newHeader() = JPanel(HorizontalLayout()).apply {
         add(JButton("Refresh").apply {
@@ -64,6 +49,7 @@ class BuildsPage : JPanel(BorderLayout()) {
 
     private fun refresh() {
         remove(buildsComponent)
+        add(loading, BorderLayout.CENTER)
         updateUI()
         load()
     }
@@ -71,8 +57,11 @@ class BuildsPage : JPanel(BorderLayout()) {
     private fun load() {
         scope.launch {
             val builds = getBranchBuilds(50)
-            buildsComponent = newBranchBuildsList(builds)
+
+            buildsComponent = BuildsVerticalList(builds)
+            remove(loading)
             add(buildsComponent, BorderLayout.CENTER)
+
             updateUI()
         }
     }

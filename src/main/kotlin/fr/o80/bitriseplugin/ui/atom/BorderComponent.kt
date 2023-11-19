@@ -1,4 +1,4 @@
-package fr.o80.bitriseplugin.ui.component
+package fr.o80.bitriseplugin.ui.atom
 
 import java.awt.BorderLayout
 import java.awt.Component

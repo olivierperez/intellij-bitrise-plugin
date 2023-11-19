@@ -4,7 +4,7 @@ import fr.o80.bitriseplugin.data.BitriseWebService
 import fr.o80.bitriseplugin.data.HttpClientProvider
 import fr.o80.bitriseplugin.domain.GetWorkflowsUseCase
 import fr.o80.bitriseplugin.domain.StartWorkflowUseCase
-import fr.o80.bitriseplugin.ui.component.LoadingComponent
+import fr.o80.bitriseplugin.ui.atom.LoadingComponent
 import fr.o80.bitriseplugin.ui.template.StartWorkflowLoaded
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
