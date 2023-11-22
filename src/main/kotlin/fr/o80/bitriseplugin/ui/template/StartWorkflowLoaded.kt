@@ -5,6 +5,7 @@ import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBList
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.components.panels.VerticalLayout
+import fr.o80.bitriseplugin.domain.ShowNotification
 import fr.o80.bitriseplugin.domain.StartWorkflowUseCase
 import fr.o80.bitriseplugin.ui.atom.JComment
 import fr.o80.bitriseplugin.ui.utils.onValueChanged
@@ -17,10 +18,12 @@ import java.awt.GridLayout
 import javax.swing.JButton
 import javax.swing.JPanel
 import javax.swing.ListSelectionModel
+import javax.swing.SwingUtilities.invokeLater
 
 class StartWorkflowLoaded(
     private val workflows: List<String>,
-    private val startWorkflow: StartWorkflowUseCase
+    private val startWorkflow: StartWorkflowUseCase,
+    private val showNotification: ShowNotification
 ) : JPanel(VerticalLayout(0)) {
 
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
@@ -71,7 +74,11 @@ class StartWorkflowLoaded(
 
     private fun doOKAction() {
         scope.launch {
-            disableUi()
+            invokeLater {
+                result.text = ""
+                disableUi()
+            }
+
             val tag = tagName.text.takeUnless { it.isBlank() }
             val branch = branchName.text.takeUnless { it.isBlank() }
             val workflow = workflowSelection.selectedValue
@@ -80,12 +87,20 @@ class StartWorkflowLoaded(
                 tag,
                 branch
             )
-            /*val referenceMessage = tag?.let { "Tag: <b>$tag</b>" }
-                ?: branch?.let { "Branch: <b>$branch</b>" }
-                ?: "No reference found"
-            result.text = "Workflow started: $workflow -- $referenceMessage"*/
-            reset()
-            enabledUi()
+
+            invokeLater {
+                val workflowMessage = "<b>Workflow:</b> $workflow"
+                val referenceMessage = tag?.let { "<b>Tag:</b> $tag" }
+                    ?: branch?.let { "<b>Branch:</b> $branch" }
+                    ?: "No reference found"
+
+                showNotification("Workflow Started", "<html>$workflowMessage<br>$referenceMessage</html>")
+
+                result.text = "<html>$workflowMessage<br>$referenceMessage</html>"
+                reset()
+                enabledUi()
+                branchName.requestFocus()
+            }
         }
     }
 
@@ -106,6 +121,7 @@ class StartWorkflowLoaded(
     private fun reset() {
         tagName.text = ""
         branchName.text = ""
+        workflowSelection.clearSelection()
     }
 
     private fun updatePage() {

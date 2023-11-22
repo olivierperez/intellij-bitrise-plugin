@@ -3,6 +3,7 @@ package fr.o80.bitriseplugin.ui.page
 import fr.o80.bitriseplugin.data.BitriseWebService
 import fr.o80.bitriseplugin.data.HttpClientProvider
 import fr.o80.bitriseplugin.domain.GetWorkflowsUseCase
+import fr.o80.bitriseplugin.domain.ShowNotification
 import fr.o80.bitriseplugin.domain.StartWorkflowUseCase
 import fr.o80.bitriseplugin.ui.atom.LoadingComponent
 import fr.o80.bitriseplugin.ui.template.StartWorkflowLoaded
@@ -19,6 +20,7 @@ class StartWorkflowPage : JPanel(BorderLayout()) {
     private val webService = BitriseWebService(HttpClientProvider.client)
     private val getWorkflows = GetWorkflowsUseCase(webService)
     private val startWorkflow = StartWorkflowUseCase(webService)
+    private val showNotification = ShowNotification()
 
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
@@ -35,7 +37,7 @@ class StartWorkflowPage : JPanel(BorderLayout()) {
             val workflows = getWorkflows()
             remove(loading)
             loading = null
-            StartWorkflowLoaded(workflows, startWorkflow)
+            StartWorkflowLoaded(workflows, startWorkflow, showNotification)
                 .padding(8)
                 .let {
                     add(it, BorderLayout.CENTER)

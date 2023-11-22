@@ -13,6 +13,7 @@
                     factoryClass="fr.o80.bitriseplugin.ui.entry.BuildsToolWindowsFactory"
                     icon="/icons/bitrise_logo_16.png"
                     anchor="right"/>
+        <notificationGroup displayType="BALLOON" id="Bitrise Workflow"/>
     </extensions>
 
     <applicationListeners>
