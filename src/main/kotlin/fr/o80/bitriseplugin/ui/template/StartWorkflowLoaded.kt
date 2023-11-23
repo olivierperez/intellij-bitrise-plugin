@@ -5,6 +5,7 @@ import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBList
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.components.panels.VerticalLayout
+import fr.o80.bitriseplugin.data.dto.NetworkResponse
 import fr.o80.bitriseplugin.domain.ShowNotification
 import fr.o80.bitriseplugin.domain.StartWorkflowUseCase
 import fr.o80.bitriseplugin.ui.atom.JComment
@@ -82,26 +83,42 @@ class StartWorkflowLoaded(
             val tag = tagName.text.takeUnless { it.isBlank() }
             val branch = branchName.text.takeUnless { it.isBlank() }
             val workflow = workflowSelection.selectedValue
-            startWorkflow(
+            val response = startWorkflow(
                 workflow,
                 tag,
                 branch
             )
 
             invokeLater {
-                val workflowMessage = "<b>Workflow:</b> $workflow"
-                val referenceMessage = tag?.let { "<b>Tag:</b> $tag" }
-                    ?: branch?.let { "<b>Branch:</b> $branch" }
-                    ?: "No reference found"
+                when (response) {
+                    is NetworkResponse.Success -> showSuccessResult(workflow, tag, branch)
+                    is NetworkResponse.Error -> showErrorResult(workflow, response.error.message)
+                }
 
-                showNotification("Workflow Started", "<html>$workflowMessage<br>$referenceMessage</html>")
-
-                result.text = "<html>$workflowMessage<br>$referenceMessage</html>"
                 reset()
                 enabledUi()
                 branchName.requestFocus()
             }
         }
+    }
+
+    private fun showSuccessResult(workflow: String?, tag: String?, branch: String?) {
+        val workflowMessage = "<b>Workflow:</b> $workflow"
+        val referenceMessage = tag?.let { "<b>Tag:</b> $tag" }
+            ?: branch?.let { "<b>Branch:</b> $branch" }
+            ?: "No reference found"
+
+        showNotification("Workflow Started", "<html>$workflowMessage<br>$referenceMessage</html>")
+
+        result.text = "<html>$workflowMessage<br>$referenceMessage</html>"
+    }
+
+    private fun showErrorResult(workflow: String, message: String) {
+        showNotification(
+            "Workflow Not Started",
+            "<html>Failed to start $workflow<br><b>Error:</b> $message</html>",
+            ShowNotification.Type.ERROR
+        )
     }
 
     private fun disableUi() {

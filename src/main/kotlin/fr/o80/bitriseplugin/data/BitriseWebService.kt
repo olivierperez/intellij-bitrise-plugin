@@ -3,6 +3,8 @@ package fr.o80.bitriseplugin.data
 import fr.o80.bitriseplugin.Const
 import fr.o80.bitriseplugin.data.dto.BuildDto
 import fr.o80.bitriseplugin.data.dto.BuildsResponse
+import fr.o80.bitriseplugin.data.dto.ErrorDto
+import fr.o80.bitriseplugin.data.dto.NetworkResponse
 import fr.o80.bitriseplugin.data.dto.StartWorkflowPayload
 import fr.o80.bitriseplugin.data.dto.WorkflowsResponse
 import io.ktor.client.*
@@ -37,7 +39,7 @@ class BitriseWebService(
         return response.body<WorkflowsResponse>().names
     }
 
-    suspend fun startWorkflow(workflow: String, tag: String?, branch: String?) {
+    suspend fun startWorkflow(workflow: String, tag: String?, branch: String?): NetworkResponse<Unit> {
         val response: HttpResponse = client.post("https://api.bitrise.io/v0.1/apps/${Const.appSlug}/builds") {
             header("Authorization", Const.token)
             contentType(ContentType.Application.Json)
@@ -45,6 +47,13 @@ class BitriseWebService(
             setBody(StartWorkflowPayload.from(workflow, tag, branch))
         }
 
-        println("start workflow response: ${response.body<String>()}")
+        return response.wrap()
+    }
+}
+
+private suspend inline fun <reified T> HttpResponse.wrap(): NetworkResponse<T> {
+    return when {
+        status.isSuccess() -> NetworkResponse.Success(body<T>())
+        else -> NetworkResponse.Error(body<ErrorDto>())
     }
 }
