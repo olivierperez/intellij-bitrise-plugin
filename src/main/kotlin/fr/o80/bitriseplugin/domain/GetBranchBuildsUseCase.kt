@@ -21,7 +21,7 @@ class GetBranchBuildsUseCase(
                         duration = dto.finishedAt
                             ?.let { finishedAt -> finishedAt - dto.triggeredAt }
                             ?: (Clock.System.now() - dto.triggeredAt),
-                        status = BuildStatus.values().first { it.code == dto.statusCode },
+                        status = BuildStatus.entries.first { it.code == dto.statusCode },
                         message = dto.extractMessage()
                     )
                 }
