@@ -5,13 +5,52 @@ import fr.o80.bitriseplugin.data.dto.BuildDto
 import fr.o80.bitriseplugin.domain.model.Branch
 import fr.o80.bitriseplugin.domain.model.Build
 import fr.o80.bitriseplugin.domain.model.BuildStatus
+import fr.o80.bitriseplugin.ui.utils.throttleFirst
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.merge
 import kotlinx.datetime.Clock
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
 
-class GetBranchBuildsUseCase(
+private val autoRefreshInterval: Duration = 15.minutes
+
+class ObserveBranchBuildsUseCase(
     private val webService: BitriseWebService
 ) {
-    suspend operator fun invoke(limit: Int): List<Branch> {
-        return webService
+
+    private val trigger = MutableSharedFlow<Long>()
+
+    @OptIn(FlowPreview::class)
+    suspend operator fun invoke(limit: Int): Flow<BranchState> {
+        return merge(
+            trigger,
+            flow {
+                while (true) {
+                    emit(System.currentTimeMillis())
+                    delay(autoRefreshInterval)
+                }
+            }
+        )
+            .throttleFirst(2_000)
+            .flatMapConcat {
+                flow {
+                    emit(BranchState.Loading)
+                    emit(BranchState.Loaded(loadBranches(limit)))
+                }
+            }
+    }
+
+    suspend fun refresh() {
+        trigger.emit(System.currentTimeMillis())
+    }
+
+    private suspend fun loadBranches(limit: Int): List<Branch> =
+        webService
             .listBuilds(limit)
             .groupBy(
                 keySelector = { it.ref },
@@ -28,7 +67,11 @@ class GetBranchBuildsUseCase(
             )
             .map { (ref, builds) -> Branch(ref, builds) }
             .sortedByDescending { branch -> branch.moreRecentBuild.startDate }
-    }
+}
+
+sealed interface BranchState {
+    data object Loading : BranchState
+    class Loaded(val branches: List<Branch>) : BranchState
 }
 
 private fun BuildDto.extractMessage(): String? {
@@ -39,4 +82,3 @@ private fun BuildDto.extractMessage(): String? {
         else -> null
     }
 }
-

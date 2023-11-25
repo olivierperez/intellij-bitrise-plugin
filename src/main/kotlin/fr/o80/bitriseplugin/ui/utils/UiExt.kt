@@ -1,6 +1,5 @@
 package fr.o80.bitriseplugin.ui.utils
 
-import com.intellij.util.ui.JBUI
 import java.awt.Font
 import javax.swing.JComponent
 import javax.swing.JTextField
