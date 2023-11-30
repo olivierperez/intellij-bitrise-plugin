@@ -26,7 +26,7 @@ repositories {
 dependencies {
     val ktorVersion = "2.3.6"
     val logbackVersion = "1.4.11"
-    val kotlinxSerialization = "1.6.1"
+    val kotlinxSerialization = "1.6.2"
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
