@@ -5,13 +5,13 @@ fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
 
 plugins {
-    id("java")
     alias(libs.plugins.kotlin)
     alias(libs.plugins.gradleIntelliJPlugin)
     alias(libs.plugins.changelog)
     alias(libs.plugins.qodana)
     alias(libs.plugins.kover)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.compose)
 }
 
 group = properties("pluginGroup").get()
@@ -20,6 +20,8 @@ version = properties("pluginVersion").get()
 // Configure project's dependencies
 repositories {
     mavenCentral()
+    google()
+    maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
 }
 
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
@@ -27,6 +29,9 @@ dependencies {
     val ktorVersion = "2.3.6"
     val logbackVersion = "1.4.11"
     val kotlinxSerialization = "1.6.1"
+
+    implementation(compose.desktop.currentOs)
+
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")

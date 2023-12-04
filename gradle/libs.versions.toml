@@ -3,6 +3,7 @@
 annotations = "24.1.0"
 
 # plugins
+compose = "1.5.11"
 kotlin = "1.9.21"
 changelog = "2.2.0"
 gradleIntelliJPlugin = "1.16.0"
@@ -14,6 +15,7 @@ annotations = { group = "org.jetbrains", name = "annotations", version.ref = "an
 
 [plugins]
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
+compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 gradleIntelliJPlugin = { id = "org.jetbrains.intellij", version.ref = "gradleIntelliJPlugin" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
