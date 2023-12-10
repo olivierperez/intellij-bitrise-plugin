@@ -40,6 +40,7 @@ class ObserveBranchBuildsUseCase(
             .flatMapConcat {
                 flow {
                     emit(BranchState.Loading)
+                    delay(10_000)
                     emit(BranchState.Loaded(loadBranches(limit)))
                 }
             }
