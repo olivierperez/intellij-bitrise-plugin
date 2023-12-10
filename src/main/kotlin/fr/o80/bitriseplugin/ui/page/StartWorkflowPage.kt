@@ -1,5 +1,14 @@
 package fr.o80.bitriseplugin.ui.page
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Button
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.awt.ComposePanel
+import com.jetbrains.compose.theme.WidgetTheme
 import fr.o80.bitriseplugin.data.BitriseWebService
 import fr.o80.bitriseplugin.data.HttpClientProvider
 import fr.o80.bitriseplugin.domain.GetWorkflowsUseCase
@@ -15,7 +24,7 @@ import kotlinx.coroutines.launch
 import java.awt.BorderLayout
 import javax.swing.JPanel
 
-class StartWorkflowPage : JPanel(BorderLayout()) {
+class StartWorkflowPage : JPanel() {
 
     private val webService = BitriseWebService(HttpClientProvider.client)
     private val getWorkflows = GetWorkflowsUseCase(webService)
@@ -28,22 +37,42 @@ class StartWorkflowPage : JPanel(BorderLayout()) {
     private var loading: LoadingComponent? = LoadingComponent("Loading Workflows")
 
     init {
-        loading?.let { add(it, BorderLayout.CENTER) }
-        load()
+        add(ComposePanel().apply {
+            setBounds(
+                this@StartWorkflowPage.x,
+                this@StartWorkflowPage.y,
+                this@StartWorkflowPage.width,
+                this@StartWorkflowPage.height
+            )
+            setContent {
+                WidgetTheme(darkTheme = true) {
+                    Surface(modifier = Modifier.fillMaxSize()) {
+                        Column(Modifier.fillMaxSize()) {
+                            Text("Text1")
+                            Button(onClick = {
+                                println("Clicked")
+                            }) {
+                                Text("Bouton")
+                            }
+                            Text("Text2")
+                        }
+
+
+//                        LaunchedEffect(Unit) {
+//                    load()
+//                        }
+                    }
+                }
+            }
+        })
     }
 
-    private fun load() {
-        scope.launch {
-            val workflows = getWorkflows()
-            remove(loading)
-            loading = null
-            StartWorkflowLoaded(workflows, startWorkflow, showNotification)
-                .padding(8)
-                .let {
-                    add(it, BorderLayout.CENTER)
-                    it.requestFocus()
-                    content = it
-                }
-        }
+    private suspend fun load() {
+        val workflows = getWorkflows()
+        StartWorkflowLoaded(workflows, startWorkflow, showNotification)
+            .padding(8)
+            .let {
+                content = it
+            }
     }
 }
