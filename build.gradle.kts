@@ -25,7 +25,7 @@ repositories {
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 dependencies {
     val ktorVersion = "2.3.6"
-    val logbackVersion = "1.4.11"
+    val logbackVersion = "1.5.0"
     val kotlinxSerialization = "1.6.1"
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
